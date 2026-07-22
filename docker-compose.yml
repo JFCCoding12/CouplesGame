@@ -1,0 +1,7 @@
+services:
+  between-us-api:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app

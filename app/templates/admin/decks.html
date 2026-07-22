@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Decks • Between Us{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto p-6">
+  <header class="flex items-center justify-between mb-8">
+    <div>
+      <a href="{{ url_for('admin_web.dashboard') }}" class="text-white/50 text-sm">← Dashboard</a>
+      <h1 class="text-4xl font-bold mt-2">Decks</h1>
+    </div>
+
+    <a href="{{ url_for('admin_web.new_deck') }}"
+       class="rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 px-5 py-3 font-bold">
+      New Deck
+    </a>
+  </header>
+
+  <div class="space-y-4">
+    {% for deck in decks %}
+      <div class="rounded-3xl bg-white/10 border border-white/10 p-5 flex items-center gap-4">
+        <div class="text-4xl">{{ deck.emoji }}</div>
+
+        <div class="flex-1">
+          <h2 class="text-xl font-bold">{{ deck.name }}</h2>
+          <p class="text-white/50 text-sm">{{ deck.id }} • {{ deck.color }} • {{ deck.questions|length }} questions</p>
+          {% if not deck.is_active %}
+            <span class="text-xs text-red-300">Archived</span>
+          {% endif %}
+        </div>
+
+        <a href="{{ url_for('admin_web.edit_deck', deck_id=deck.id) }}"
+           class="rounded-xl bg-white/10 px-4 py-2 font-semibold">
+          Edit
+        </a>
+
+        <form method="post" action="{{ url_for('admin_web.delete_deck', deck_id=deck.id) }}">
+          <button class="rounded-xl bg-red-500/20 text-red-200 px-4 py-2 font-semibold">
+            Archive
+          </button>
+        </form>
+      </div>
+    {% else %}
+      <p class="text-white/60">No decks yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

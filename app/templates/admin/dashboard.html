@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Admin • Between Us{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto p-6">
+  <header class="flex items-center justify-between mb-8">
+    <div>
+      <p class="uppercase tracking-widest text-pink-300 text-xs font-bold">Between Us</p>
+      <h1 class="text-4xl font-bold">Admin Dashboard</h1>
+    </div>
+
+    <form method="post" action="{{ url_for('web.logout') }}">
+      <button class="rounded-full bg-white/10 border border-white/10 px-5 py-2 font-semibold">Logout</button>
+    </form>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+    <div class="rounded-3xl bg-white/10 border border-white/10 p-6">
+      <p class="text-white/60">Decks</p>
+      <p class="text-5xl font-bold">{{ deck_count }}</p>
+    </div>
+
+    <div class="rounded-3xl bg-white/10 border border-white/10 p-6">
+      <p class="text-white/60">Questions</p>
+      <p class="text-5xl font-bold">{{ question_count }}</p>
+    </div>
+  </div>
+
+  <a href="{{ url_for('admin_web.decks') }}"
+     class="inline-flex rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 font-bold">
+    Manage Decks
+  </a>
+  <a href="{{ url_for('admin_web.questions') }}"
+   class="inline-flex rounded-2xl bg-white/10 border border-white/10 px-6 py-3 font-bold">
+  Manage Questions
+</a>
+<a href="{{ url_for('admin_web.bulk_import') }}"
+   class="inline-flex rounded-2xl bg-white/10 border border-white/10 px-6 py-3 font-bold">
+  Bulk Import
+</a>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Questions • Between Us{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto p-6">
+  <header class="flex items-center justify-between mb-8">
+    <div>
+      <a href="{{ url_for('admin_web.dashboard') }}" class="text-white/50 text-sm">← Dashboard</a>
+      <h1 class="text-4xl font-bold mt-2">Questions</h1>
+    </div>
+
+    <a href="{{ url_for('admin_web.new_question') }}"
+       class="rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 px-5 py-3 font-bold">
+      New Question
+    </a>
+  </header>
+
+  <form method="get" class="mb-6">
+    <select name="deck_id" onchange="this.form.submit()"
+      class="rounded-2xl bg-black/30 border border-white/10 px-4 py-3">
+      <option value="">All Decks</option>
+      {% for deck in decks %}
+        <option value="{{ deck.id }}" {% if selected_deck_id == deck.id %}selected{% endif %}>
+          {{ deck.emoji }} {{ deck.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+
+  <div class="space-y-4">
+    {% for question in questions %}
+      <div class="rounded-3xl bg-white/10 border border-white/10 p-5">
+        <div class="flex justify-between gap-4">
+          <div>
+            <p class="text-white/50 text-sm">
+              {{ question.deck.emoji }} {{ question.deck.name }} • {{ question.level }} • order {{ question.sort_order }}
+              {% if question.is_nsfw %} • NSFW{% endif %}
+              {% if not question.is_active %} • Archived{% endif %}
+            </p>
+
+            <h2 class="text-xl font-bold mt-2">{{ question.text }}</h2>
+
+            {% if question.tags %}
+              <p class="text-white/40 text-sm mt-2">{{ question.tags | join(", ") }}</p>
+            {% endif %}
+          </div>
+
+          <div class="flex gap-2 shrink-0">
+            <a href="{{ url_for('admin_web.edit_question', question_id=question.id) }}"
+              class="rounded-xl bg-white/10 px-4 py-2 font-semibold h-fit">
+              Edit
+            </a>
+
+            <form method="post" action="{{ url_for('admin_web.delete_question', question_id=question.id) }}">
+              <button class="rounded-xl bg-red-500/20 text-red-200 px-4 py-2 font-semibold">
+                Archive
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <p class="text-white/60">No questions yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

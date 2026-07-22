@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Question Form • Between Us{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto p-6">
+  <a href="{{ url_for('admin_web.questions') }}" class="text-white/50 text-sm">← Back to Questions</a>
+
+  <div class="rounded-3xl bg-white/10 border border-white/10 p-8 mt-6">
+    <h1 class="text-4xl font-bold mb-6">
+      {% if question %}Edit Question{% else %}New Question{% endif %}
+    </h1>
+
+    <form method="post" class="space-y-5">
+      <div>
+        <label class="block text-sm font-bold text-white/70 mb-2">Deck</label>
+        <select name="deck_id" required
+          class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3">
+          {% for deck in decks %}
+            <option value="{{ deck.id }}" {% if question and question.deck_id == deck.id %}selected{% endif %}>
+              {{ deck.emoji }} {{ deck.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold text-white/70 mb-2">Question Text</label>
+        <textarea name="text" rows="5" required
+          class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3">{{ question.text if question else '' }}</textarea>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-bold text-white/70 mb-2">Level</label>
+          <input name="level" value="{{ question.level if question else 'general' }}"
+            class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3">
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold text-white/70 mb-2">Sort Order</label>
+          <input name="sort_order" type="number" value="{{ question.sort_order if question else 0 }}"
+            class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold text-white/70 mb-2">Tags</label>
+        <input name="tags" value="{{ question.tags | join(', ') if question and question.tags else '' }}"
+          placeholder="deep, future, trust"
+          class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3">
+      </div>
+
+      <div class="flex gap-6">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" name="is_nsfw" {% if question and question.is_nsfw %}checked{% endif %}>
+          NSFW
+        </label>
+
+        {% if question %}
+        <label class="flex items-center gap-2">
+          <input type="checkbox" name="is_active" {% if question.is_active %}checked{% endif %}>
+          Active
+        </label>
+        {% endif %}
+      </div>
+
+      <button class="rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 font-bold">
+        Save Question
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

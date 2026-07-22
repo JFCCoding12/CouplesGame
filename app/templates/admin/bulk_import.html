@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Bulk Import • Between Us{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto p-6">
+  <a href="{{ url_for('admin_web.dashboard') }}" class="text-white/50 text-sm">← Dashboard</a>
+
+  <h1 class="text-4xl font-bold mt-2 mb-8">Bulk Import</h1>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="rounded-3xl bg-white/10 border border-white/10 p-6">
+      <h2 class="text-2xl font-bold mb-4">Import Decks</h2>
+
+      <form method="post" action="{{ url_for('admin_web.bulk_import_decks') }}" class="space-y-4">
+        <textarea name="payload" rows="18"
+          class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3 font-mono text-sm"
+          placeholder='[
+  {
+    "id": "funny",
+    "name": "Funny",
+    "emoji": "😂",
+    "primary_color": "#F7971E",
+    "secondary_color": "#FFD200",
+    "description": "Questions to make you both laugh.",
+    "sort_order": 1,
+    "is_nsfw": false,
+    "is_active": true
+  }
+]'></textarea>
+
+        <button class="rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 font-bold">
+          Import Decks
+        </button>
+      </form>
+    </div>
+
+    <div class="rounded-3xl bg-white/10 border border-white/10 p-6">
+      <h2 class="text-2xl font-bold mb-4">Import Questions</h2>
+
+      <form method="post" action="{{ url_for('admin_web.bulk_import_questions') }}" class="space-y-4">
+        <textarea name="payload" rows="18"
+          class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3 font-mono text-sm"
+          placeholder='[
+  {
+    "deck_id": "funny",
+    "text": "What is something stupid we laughed way too hard about?",
+    "level": "easy",
+    "tags": ["funny", "memory"],
+    "sort_order": 1,
+    "is_nsfw": false,
+    "is_active": true
+  }
+]'></textarea>
+
+        <button class="rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 font-bold">
+          Import Questions
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
