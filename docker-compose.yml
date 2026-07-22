@@ -1,7 +1,7 @@
 services:
-  between-us:
+  between-us-api:
     build: .
-    container_name: between-us
+    container_name: between-us-api
     restart: unless-stopped
 
     volumes:
@@ -14,17 +14,17 @@ services:
       - "traefik.enable=true"
 
       # HTTP
-      - "traefik.http.routers.between-us.rule=Host(`app.betweenus.fyi`)"
-      - "traefik.http.routers.between-us.entrypoints=web"
+      - "traefik.http.routers.between-us-api.rule=Host(`app.betweenus.fyi`)"
+      - "traefik.http.routers.between-us-api.entrypoints=web"
 
       # HTTPS
-      - "traefik.http.routers.between-us-secure.rule=Host(`app.betweenus.fyi`)"
-      - "traefik.http.routers.between-us-secure.entrypoints=web"
-     # - "traefik.http.routers.between-us-secure.tls=true"
-     # - "traefik.http.routers.between-us-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.between-us-api-secure.rule=Host(`app.betweenus.fyi`)"
+      - "traefik.http.routers.between-us-api-secure.entrypoints=web"
+     # - "traefik.http.routers.between-us-api-secure.tls=true"
+     # - "traefik.http.routers.between-us-api-secure.tls.certresolver=letsencrypt"
 
       # Service
-      - "traefik.http.services.between-us.loadbalancer.server.port=5000"
+      - "traefik.http.services.between-us-api.loadbalancer.server.port=5000"
 
     networks:
       - traefik-net
